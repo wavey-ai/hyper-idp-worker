@@ -170,7 +170,7 @@ async function logout(request, env) {
   const headers = new Headers();
   headers.append("Set-Cookie", clearCookieHeader(sessionCookieName(env), env));
   headers.append("Set-Cookie", clearCookieHeader(txCookieName(env), env));
-  headers.set("Location", absoluteReturnTo(returnTo, request));
+  headers.set("Location", logoutRedirectUrl(returnTo, request, env));
   return withCors(new Response(null, { status: 302, headers }), request, env);
 }
 
@@ -410,6 +410,16 @@ export function safeReturnTo(value, request, env = {}) {
 
 function absoluteReturnTo(value, request) {
   return new URL(value || "/", request.url).toString();
+}
+
+function logoutRedirectUrl(returnTo, request, env) {
+  const fallbackReturnTo = absoluteReturnTo(returnTo, request);
+  if (!env.AUTH0_DOMAIN || !env.AUTH0_CLIENT_ID) return fallbackReturnTo;
+
+  const logoutUrl = new URL("/v2/logout", auth0BaseUrl(env));
+  logoutUrl.searchParams.set("client_id", env.AUTH0_CLIENT_ID);
+  logoutUrl.searchParams.set("returnTo", fallbackReturnTo);
+  return logoutUrl.toString();
 }
 
 function requestCookies(request) {
