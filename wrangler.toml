@@ -1,0 +1,26 @@
+name = "hyper-idp-worker"
+main = "src/worker.js"
+compatibility_date = "2026-05-21"
+workers_dev = true
+
+[vars]
+AUTH0_SCOPE = "openid profile email"
+SESSION_TTL_SECONDS = "86400"
+COOKIE_NAME = "hyper_idp_session"
+TX_COOKIE_NAME = "hyper_idp_tx"
+
+# Configure these per deployment, either here or with wrangler secrets.
+# AUTH0_DOMAIN = "example.eu.auth0.com"
+# AUTH0_CLIENT_ID = "..."
+# COOKIE_DOMAIN = ".bitneedle.com"
+# ALLOWED_ORIGINS = "https://bitneedle.com,https://www.bitneedle.com"
+# ALLOWED_RETURN_ORIGINS = "https://bitneedle.com,https://www.bitneedle.com"
+#
+# Secrets:
+# wrangler secret put AUTH0_CLIENT_SECRET
+# wrangler secret put COOKIE_SECRET
+#
+# Example production route:
+# routes = [
+#   { pattern = "id.bitneedle.com/*", zone_name = "bitneedle.com" },
+# ]
