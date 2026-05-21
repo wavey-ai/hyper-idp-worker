@@ -4,6 +4,9 @@
   "description": "Cloudflare Worker Auth0 broker for first-party HttpOnly auth cookies.",
   "license": "MIT",
   "type": "module",
+  "exports": {
+    ".": "./src/worker.js"
+  },
   "scripts": {
     "check": "node --check src/worker.js && node --test src/worker.test.mjs",
     "dev": "wrangler dev",
